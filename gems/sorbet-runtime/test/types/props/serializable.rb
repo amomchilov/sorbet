@@ -131,14 +131,14 @@ class Opus::Types::Test::Props::SerializableTest < Critic::Unit::UnitTest
       a = DefaultArrayStruct.new
       b = DefaultArrayStruct.new
 
-      refute_equal(a.arrayprop.object_id, b.arrayprop.object_id)
+      refue_same(a.arrayprop, b.arrayprop)
     end
 
     it 'does not share structure for hashes' do
       a = DefaultHashStruct.new
       b = DefaultHashStruct.new
 
-      refute_equal(a.hashprop.object_id, b.hashprop.object_id)
+      refue_same(a.hashprop, b.hashprop)
     end
   end
 
@@ -309,8 +309,8 @@ class Opus::Types::Test::Props::SerializableTest < Critic::Unit::UnitTest
       m.name = 'hi'
       m.foo = {'hello' => {'world' => 1}}
       h = m.serialize
-      refute_equal(m.foo.object_id, h['foo'].object_id, "`foo` is the same object")
-      refute_equal(m.foo['hello'].object_id, h['foo']['hello'].object_id, "`foo.hello` is the same object")
+      refue_same(m.foo, h['foo'], "`foo` is the same object")
+      refue_same(m.foo['hello'], h['foo']['hello'], "`foo.hello` is the same object")
     end
 
     it 'does not share structure on deserialize' do
@@ -319,8 +319,8 @@ class Opus::Types::Test::Props::SerializableTest < Critic::Unit::UnitTest
         'foo' => {'hello' => {'world' => 1}},
       }
       m = MySerializable.from_hash(h)
-      refute_equal(m.foo.object_id, h['foo'].object_id, "`foo` is the same object")
-      refute_equal(m.foo['hello'].object_id, h['foo']['hello'].object_id, "`foo.hello` is the same object")
+      refue_same(m.foo, h['foo'], "`foo` is the same object")
+      refue_same(m.foo['hello'], h['foo']['hello'], "`foo.hello` is the same object")
     end
   end
 
@@ -921,7 +921,7 @@ class Opus::Types::Test::Props::SerializableTest < Critic::Unit::UnitTest
       struct = SetPropStruct.new
       struct.set = set
       h = struct.serialize
-      refute_equal(struct.set.object_id, h['set'].object_id, "`set` is the same object")
+      refue_same(struct.set, h['set'], "`set` is the same object")
     end
 
     it 'does not share structure on deserialize' do
@@ -930,7 +930,7 @@ class Opus::Types::Test::Props::SerializableTest < Critic::Unit::UnitTest
         'set' => set,
       }
       struct = SetPropStruct.from_hash(h)
-      refute_equal(struct.set.object_id, h['set'].object_id, "`set` is the same object")
+      refue_same(struct.set, h['set'], "`set` is the same object")
     end
   end
 
@@ -1226,7 +1226,7 @@ class Opus::Types::Test::Props::SerializableTest < Critic::Unit::UnitTest
       h = {}
       obj1 = DefaultStringProp.from_hash(h)
       obj2 = DefaultStringProp.from_hash(h)
-      refute_equal(obj1.stringprop.object_id, obj2.stringprop.object_id)
+      refue_same(obj1.stringprop, obj2.stringprop)
     end
   end
 

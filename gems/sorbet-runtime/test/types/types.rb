@@ -81,7 +81,7 @@ module Opus::Types::Test
       it 'uses structural, not reference, equality' do
         x = T::Types::Simple.new(String)
         y = T::Types::Simple.new(String)
-        refute_equal(x.object_id, y.object_id)
+        refue_same(x, y)
         assert_equal(x, y)
         assert_equal(x.hash, y.hash)
       end
@@ -89,7 +89,7 @@ module Opus::Types::Test
       it 'pools correctly' do
         x = T::Types::Simple::Private::Pool.type_for_module(String)
         y = T::Types::Simple::Private::Pool.type_for_module(String)
-        assert_equal(x.object_id, y.object_id)
+        assert_same(x, y)
       end
 
       it 'does not blow up when pooling with frozen module' do
@@ -269,7 +269,7 @@ module Opus::Types::Test
       it 'uses structural, not reference, equality' do
         x = T::Types::Union.new([String, NilClass])
         y = T::Types::Union.new([String, NilClass])
-        refute_equal(x.object_id, y.object_id)
+        refue_same(x, y)
         assert_equal(x, y)
         assert_equal(x.hash, y.hash)
       end
@@ -293,7 +293,7 @@ module Opus::Types::Test
           T::Utils.coerce(String),
           T::Utils.coerce(NilClass),
         )
-        assert_equal(x.object_id, y.object_id)
+        assert_same(x, y)
         assert_equal(
           T::Private::Types::SimplePairUnion,
           x.class,
@@ -1697,9 +1697,9 @@ module Opus::Types::Test
         end
 
         it 'pools' do
-          assert_equal(T.type_parameter(:T).object_id, T.type_parameter(:T).object_id)
-          refute_equal(T.type_parameter(:T).object_id, T.type_parameter(:U).object_id)
-          refute_equal(T::Types::TypeParameter.new(:T).object_id, T::Types::TypeParameter.new(:T).object_id)
+          assert_same(T.type_parameter(:T), T.type_parameter(:T))
+          refue_same(T.type_parameter(:T), T.type_parameter(:U))
+          refue_same(T::Types::TypeParameter.new(:T), T::Types::TypeParameter.new(:T))
         end
       end
 

@@ -117,13 +117,13 @@ class T::Enum::Test::EnumTest < Critic::Unit::UnitTest
     it 'returns the corresponding enum instance' do
       club = CardSuit.from_serialized('club')
       assert_equal(CardSuit::CLUB, club)
-      assert_equal(CardSuit::CLUB.object_id, club.object_id)
+      assert_same(CardSuit::CLUB, club)
     end
 
     it 'returns the corresponding enum instance with custom serialization' do
       club = CardSuitCustom.from_serialized('_club_')
       assert_equal(CardSuitCustom::CLUB, club)
-      assert_equal(CardSuitCustom::CLUB.object_id, club.object_id)
+      assert_same(CardSuitCustom::CLUB, club)
     end
 
     it 'raises KeyError for a value that does it does not contain' do
@@ -316,8 +316,8 @@ class T::Enum::Test::EnumTest < Critic::Unit::UnitTest
     end
 
     it 'returns the same object for #dup and #clone' do
-      assert_equal(CardSuit::DIAMOND.object_id, CardSuit::DIAMOND.dup.object_id)
-      assert_equal(CardSuit::DIAMOND.object_id, CardSuit::DIAMOND.clone.object_id)
+      assert_same(CardSuit::DIAMOND, CardSuit::DIAMOND.dup)
+      assert_same(CardSuit::DIAMOND, CardSuit::DIAMOND.clone)
     end
 
     it 'does not allow the T::Enum to be instantiated' do
